@@ -1,20 +1,91 @@
-﻿// Term_B.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
+﻿#pragma warning(disable: 4996)
 
 #include <iostream>
+#define MAXNAME 8196
+
+using namespace std;
+
+typedef struct ECOSYSTEM {
+    double place_c;                                    //생태계 터전의 크기(Consumer)
+    double place_p;                                    //생태계 터전의 크기(Productor)
+    double energy;                                     //생태계 총 에너지 양
+    double production;                                 //Productor가 제공하는 자원
+    double food;                                       //Consumor가 제공하는 자원
+    double leftover;                                   //생명체들이 죽고 나서 남는 찌꺼기
+}Ecosystem;
+
+Ecosystem eco;
+
+class Organism {
+private:        
+    char* name;                                        //생물체의 이름
+    double size;                                       //생물체의 크기
+    double time_to_reproduction;                       //생식 사이의 소요기간(성체일 때만 함)
+    int number_of_children;                            //자식의 수
+    double baby;                                       //유체로 머무르는 시간
+    double youth;                                      //유체와 성체 사이에서 머무르는 시간
+    double adult;                                      //성체로 머무르는 시간
+    double lifespan;                                   //평균 수명
+    double age=0;                                      //현재 나이
+public:
+    Organism();
+    void change_name(char* n) { this->name = n; };
+    void change_size(double size) { this->size = size; };
+    void change_repro(double repro) { this->time_to_reproduction = repro; };
+    void change_num_child(int ch) { this->number_of_children = ch; };
+    void change_baby(double b) { this->baby = b; };
+    void change_youth(double y) { this->youth = y; };
+    void change_adult(double a) { this->adult = a; };
+};
+Organism::Organism() {
+    char n[MAXNAME];
+    cout << "생명체의 이름은?" << endl;
+    cin >> n;
+    this->name = n;
+    cout << "생명체의 크기는?" << endl;
+    cin >> this->size;
+    cout << "생명체가 다음 세대를 만들때까지 소요 되는 시간은?" << endl;
+    cin >> this->time_to_reproduction;
+    cout << "한 번에 낳는 자식의 수는?" << endl;
+    cin >> this->number_of_children;
+    cout << "유체로 머무르는 시간은?" << endl;
+    cin >> this->baby;
+    cout << "유체와 성체 사이에 소요되는 시간은?" << endl;
+    cin >> this->youth;
+    cout << "성체로 머무르는 시간은?" << endl;
+    cin >> this->adult;
+    this->lifespan = this->baby + this->youth + this->adult;
+}
+
+
+class Productor : public Organism {
+private:
+    double product;                     //해당 productor가 ecosystem에 제공할 자원의 양
+    double energy;                      //해당 productor가 살아가는 동안 연당 소비하는 자원의 양
+public:
+    void change_product(double p) { this->product = p; };
+    void change_energy(double e) { this->energy = e; };
+};
+
+class Consumer : public Organism {
+private:
+    double food;                        //해당 consumer가 죽어서 ecosystem에 제공할 자원의 양              
+    double resource;                    //해당 consumer가 살아가는 동안 연당 소비하는 자원의 양
+public:
+    void change_food(double f) { this->food = f; };
+    void change_resource(double r) { this->resource = r; };
+};
+
+class Decomposer : public Organism {
+public:
+
+};
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    cout << "### ecosystem simulation ###" << endl;
+    cout << "프로그램 내에서 시간의 단위는 전부 연(year)단위 입니다." << endl;
+    Organism o;
+    
 }
 
-// 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
-// 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
-
-// 시작을 위한 팁: 
-//   1. [솔루션 탐색기] 창을 사용하여 파일을 추가/관리합니다.
-//   2. [팀 탐색기] 창을 사용하여 소스 제어에 연결합니다.
-//   3. [출력] 창을 사용하여 빌드 출력 및 기타 메시지를 확인합니다.
-//   4. [오류 목록] 창을 사용하여 오류를 봅니다.
-//   5. [프로젝트] > [새 항목 추가]로 이동하여 새 코드 파일을 만들거나, [프로젝트] > [기존 항목 추가]로 이동하여 기존 코드 파일을 프로젝트에 추가합니다.
-//   6. 나중에 이 프로젝트를 다시 열려면 [파일] > [열기] > [프로젝트]로 이동하고 .sln 파일을 선택합니다.
